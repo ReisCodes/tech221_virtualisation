@@ -54,3 +54,78 @@ service nginx start
 
 ![](image5.png)
 
+### Syncing folders into our VM
+
+1. We first need to add our files to the same directory of our vagrant file.
+
+![](image6.png)
+
+2. In our "Vagrantfile" we now need to add a configeration step to add this file to our VM directory. This tells the vm what folder to sync and the path we want to store it at.
+
+`config.vm.synced_folder "app", "/home/vagrant/app"`
+
+3. We can now `vagrant run`, once the VM has been created we can `cd app` to check if this file exists within our vm and `ls` to check the contents.
+
+![](image7.png)
+
+# Deploying an application on a VM
+
+### Without provisioning:
+
+1. Our VM that is on ubuntu OS will have python installed but we need to add  a python package manager, we can do this by opening a terminal-bash window, ssh into our vm and use the cmd:
+
+- `sudo apt-get install python-software-properties`
+
+2. Now to install node on a Linux system we have to use 2 commands to achieve this:
+
+- `curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -`
+
+Once this is done, your window will display a message prompting you to input a new cmd, it should look something like: 
+
+Run `sudo apt-get install -y nodejs` to install Node.js 6.x
+
+*You can check your version of node.js by using `nodejs --version`*
+
+3. We now want to install "PM2" this is an advanced process manager for running node.js apps, to do this we use:
+
+- `sudo npm install pm2 -g`
+
+4. Once that has completed we need to cd into our app folder
+
+- `cd app`
+
+5. Our final steps are to install npm within our application and starting it, we can do this with :
+
+- `npm install`
+
+and then:
+
+- `npm start`
+
+You should be greeted with this message.
+
+![](image8.png)
+
+6. You can now copy your IP address and add your port on the end to direct you to your deployed application, in this case our code is: "http://192.168.10.100:3000/"
+
+![](image9.png)
+
+### With Provisioning:
+
+1. Provisioning is the process of setting up the Vagrant box when it is ran for the first time. Provisioning will only run once for a new VM, unless forced.
+
+This one specifically is executing a bunch of shell commands when it is being provisioned.
+
+`config.vm.provision :shell do |shell|`
+
+2. Within our "Vagrant" file we need to set up a provision to do all the instilations we need for the vm, we can do this with:
+
+![](image10.png)
+
+3. We then need to set up the provisions for the npm to start within the application directory. 
+
+![](image11.png)
+
+4. Now when we `vagrant up`, our vm should automatically deploy our application and return the same message and port number. we can return to this page and see if our application has been deployed. ("http://192.168.10.100:3000/")
+
+![](image9.png)

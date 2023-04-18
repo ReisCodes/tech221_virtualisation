@@ -39,6 +39,8 @@ The purpose of this is so developers can test certain things before pushing it t
 2. We now need to write our script file in the same directory, called "provision.sh":
 
 ```
+!#/bin/bash
+
 sudo apt-get -y update 
 
 sudo apt-get -y upgrade 

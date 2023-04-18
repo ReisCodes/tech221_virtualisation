@@ -39,11 +39,13 @@ The purpose of this is so developers can test certain things before pushing it t
 2. We now need to write our script file in the same directory, called "provision.sh":
 
 ```
-sudo apt update -y
+sudo apt-get -y update 
 
-sudo apt upgrade -y
+sudo apt-get -y upgrade 
 
-sudo apt install nginx -y
+sudo apt install nginx -y 
+
+service nginx start
 ```
 
 3. We are now ready to `vagrant up`, we can check our vm is up and running with nginx installed by copying the IP into our browser where we should be greeted with the nginx home screen, or using `service nginx status` and returned with a green "active (running)" message.
